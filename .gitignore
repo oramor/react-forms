@@ -1,3 +1,3 @@
 node_modules/
 yarn.lock
-packages/**/_web/
+packages/**/_public/
