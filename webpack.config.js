@@ -25,7 +25,7 @@ function pageFileName(type) {
 export default {
     mode: 'development',
     entry: './' + path.join('pages', CONFIG.pageName, pageFileName('chunk')),
-    context: path.join(CONFIG.rootPath, CONFIG.projectDirName),
+    context: path.join(CONFIG.rootPath, 'packages', CONFIG.projectDirName),
     output: {
         path: path.join(
             CONFIG.rootPath,
@@ -77,7 +77,7 @@ export default {
     },
     devServer: {
         static: {
-            directory: './_web/views',
+            directory: './_public/views',
         },
         compress: true,
         port: 9000,

@@ -1,3 +1,5 @@
+import { makeObservable, action } from 'mobx';
+
 type SupportedLangs = 'ru' | 'en';
 
 type LocalNode = {
@@ -19,14 +21,24 @@ export abstract class BaseFormStore {
     public isRequest = false;
     constructor(...args: ConstructorParameters<BaseFormStoreConstructor>) {
         this.lang = args[0];
+        makeObservable(this, {
+            updateAction: action,
+            sendForm: action,
+        });
     }
 
+    // Fabric
     public updateFieldValue(fieldName: string) {
         if (Object.keys(this).includes(fieldName)) {
             throw new Error(`Not found Field ${fieldName}`);
         }
 
-        return (ev) => (this[fieldName]['value'] = ev.target.value);
+        //return (ev) => (this[fieldName]['value'] = ev.target.value);
+        return (ev) => this.updateAction(fieldName, ev.target.value);
+    }
+
+    updateAction(name: string, value: string) {
+        this[name]['value'] = value;
     }
 
     private get formData() {
@@ -48,7 +60,7 @@ export abstract class BaseFormStore {
 
     public sendForm() {
         this.changeFormStatus(true);
-        console.log(this.formData);
+        console.log(this.formData.get('login'));
     }
 
     private changeFormStatus(b: boolean) {

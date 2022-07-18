@@ -4,7 +4,7 @@
         "composite": true,
         "module": "ES2020",
         "rootDir": ".",
-        "outDir": "_web",
+        "outDir": "_public",
         "target": "ESNext",
         "moduleResolution": "Node",
         "allowSyntheticDefaultImports": true,

@@ -13,7 +13,7 @@ export const App = observer(() => {
                 onChange={store.updateFieldValue('login')}
             />
             <div>{store.login.value}</div>
-            <Button title="Send" onClick={store.sendForm} />
+            <Button title="Send" onClick={store.sendForm.bind(store)} />
         </form>
     );
 });

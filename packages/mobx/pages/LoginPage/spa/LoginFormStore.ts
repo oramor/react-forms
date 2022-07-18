@@ -1,7 +1,8 @@
 import { BaseFormStore, FormFieldNode } from '../../../core/BaseFormStore';
+import { makeObservable, observable, computed } from 'mobx';
 
 export class LoginFormStore extends BaseFormStore {
-    private _login: FormFieldNode = {
+    _login: FormFieldNode = {
         title: {
             ru: 'Логин',
             en: 'Login',
@@ -15,6 +16,10 @@ export class LoginFormStore extends BaseFormStore {
     };
     constructor(lang) {
         super(lang);
+        makeObservable(this, {
+            _login: observable,
+            login: computed,
+        });
     }
 
     get login() {
