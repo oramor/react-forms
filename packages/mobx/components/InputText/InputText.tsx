@@ -12,9 +12,14 @@ type InputTextProps = FormFieldNode & {
 
 export function InputText({ title, onChange, placeholder }: InputTextProps) {
     return (
-        <label>
-            {title}
-            <input type="text" placeholder={placeholder} onChange={onChange} />
-        </label>
+        <>
+            <label htmlFor="login">{title.ru}</label>
+            <input
+                name="login"
+                type="text"
+                placeholder={placeholder?.ru}
+                onChange={onChange}
+            />
+        </>
     );
 }

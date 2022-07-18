@@ -1,5 +1,19 @@
 import { observer } from 'mobx-react';
+import { InputText } from '../../../components/InputText/InputText';
+import { Button } from '../../../components/Button/Button';
+import { LoginFormStore } from './LoginFormStore';
+
+const store = new LoginFormStore('ru');
 
 export const App = observer(() => {
-    return <form></form>;
+    return (
+        <form>
+            <InputText
+                {...store.login}
+                onChange={store.updateFieldValue('login')}
+            />
+            <div>{store.login.value}</div>
+            <Button title="Send" onClick={store.sendForm} />
+        </form>
+    );
 });
