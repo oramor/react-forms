@@ -1,18 +1,5 @@
-import { makeObservable, action } from 'mobx';
-
-type SupportedLangs = 'ru' | 'en';
-
-type LocalNode = {
-    ru: string;
-    en: string;
-};
-
-export interface FormFieldNode {
-    title: LocalNode;
-    value: string;
-    placeholder?: LocalNode;
-    error?: string;
-}
+import { makeObservable, action, observable, computed } from 'mobx';
+import { ReactHandlers, ReactEvents } from './types/libs/react';
 
 type BaseFormStoreConstructor = new (lang: SupportedLangs) => BaseFormStore;
 
@@ -22,22 +9,26 @@ export abstract class BaseFormStore {
     constructor(...args: ConstructorParameters<BaseFormStoreConstructor>) {
         this.lang = args[0];
         makeObservable(this, {
-            updateAction: action,
+            isRequest: observable,
+            inputUpdateAction: action,
             sendForm: action,
         });
     }
 
     // Fabric
-    public updateFieldValue(fieldName: string) {
+    public inputUpdateFactory(
+        fieldName: string,
+    ): ReactHandlers.InputUpdateHandler {
         if (Object.keys(this).includes(fieldName)) {
             throw new Error(`Not found Field ${fieldName}`);
         }
 
-        //return (ev) => (this[fieldName]['value'] = ev.target.value);
-        return (ev) => this.updateAction(fieldName, ev.target.value);
+        return (ev: ReactEvents.InputUpdateEvent) =>
+            this.inputUpdateAction(fieldName, ev);
     }
 
-    updateAction(name: string, value: string) {
+    public inputUpdateAction(name: string, ev: ReactEvents.InputUpdateEvent) {
+        const value: string = ev.target.value;
         this[name]['value'] = value;
     }
 
@@ -65,5 +56,24 @@ export abstract class BaseFormStore {
 
     private changeFormStatus(b: boolean) {
         this.isRequest = b;
+    }
+
+    protected getObservableFields() {
+        const regex = /^_\w*/;
+        const obj = {};
+
+        Object.keys(this).forEach((fieldName) => {
+            if (regex.test(fieldName)) {
+                const computedFieldName = fieldName.slice(1);
+
+                // Only if object has pair like _login + login
+                if (this[computedFieldName]) {
+                    obj[fieldName] = observable;
+                    obj[computedFieldName] = computed;
+                }
+            }
+        });
+        console.log(obj);
+        return obj;
     }
 }

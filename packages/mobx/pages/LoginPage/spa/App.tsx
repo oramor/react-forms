@@ -10,7 +10,7 @@ export const App = observer(() => {
         <form>
             <InputText
                 {...store.login}
-                onChange={store.updateFieldValue('login')}
+                onChange={store.inputUpdateFactory('login')}
             />
             <div>{store.login.value}</div>
             <Button title="Send" onClick={store.sendForm.bind(store)} />

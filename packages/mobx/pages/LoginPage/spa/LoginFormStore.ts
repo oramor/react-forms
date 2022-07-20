@@ -1,28 +1,33 @@
-import { BaseFormStore, FormFieldNode } from '../../../core/BaseFormStore';
-import { makeObservable, observable, computed } from 'mobx';
+import { BaseFormStore } from '../../../core/BaseFormStore';
+import { makeObservable } from 'mobx';
+import LoginFormScheme from './LoginFormScheme';
 
 export class LoginFormStore extends BaseFormStore {
+    //declare name: FormFieldNode;
     _login: FormFieldNode = {
-        title: {
-            ru: 'Логин',
-            en: 'Login',
-        },
+        ...LoginFormScheme['login'],
         value: '',
-        placeholder: {
-            ru: 'Эл. почта или телефон',
-            en: 'Email or phone',
-        },
         error: '',
     };
-    constructor(lang) {
+
+    _password: FormFieldNode = {
+        ...LoginFormScheme['password'],
+        value: '',
+        error: '',
+    };
+
+    constructor(lang: SupportedLangs) {
         super(lang);
         makeObservable(this, {
-            _login: observable,
-            login: computed,
+            ...this.getObservableFields(),
         });
     }
 
     get login() {
         return this._login;
+    }
+
+    get password() {
+        return this._password;
     }
 }

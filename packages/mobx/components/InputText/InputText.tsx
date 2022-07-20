@@ -1,8 +1,7 @@
-import React from 'react';
-import { FormFieldNode } from '../../core/BaseFormStore';
+import { ReactHandlers } from '../../core/types/libs/react';
 
 type InputTextProps = FormFieldNode & {
-    onChange?: (ev: React.FormEvent<HTMLInputElement>) => void;
+    onChange?: ReactHandlers.InputUpdateHandler;
 };
 
 // export interface InputTextProps {
