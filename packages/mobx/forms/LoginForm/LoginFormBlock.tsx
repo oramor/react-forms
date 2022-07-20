@@ -1,11 +1,12 @@
 import { InputText } from '../../components/InputText/InputText';
 import { Button } from '../../components/Button/Button';
 import { LoginFormStore } from './LoginFormStore';
+import { observer } from 'mobx-react';
 //import { LoginFormStyles } from './LoginFormStyles';
 
 const store = new LoginFormStore('ru');
 
-export function LoginFormBlock() {
+export const LoginFormBlock = observer(() => {
     return (
         <form className="f-login">
             <InputText
@@ -16,4 +17,4 @@ export function LoginFormBlock() {
             <Button title="Send" onClick={store.sendForm.bind(store)} />
         </form>
     );
-}
+});

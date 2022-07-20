@@ -1,5 +1,5 @@
-import { BaseFormStore } from '../../core/BaseFormStore';
 import { makeObservable } from 'mobx';
+import { BaseFormStore } from '../../core/BaseFormStore';
 import LoginFormScheme from './LoginFormScheme';
 
 export class LoginFormStore extends BaseFormStore {
