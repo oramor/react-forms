@@ -1,6 +1,7 @@
 import path from 'path';
 import { CleanWebpackPlugin } from 'clean-webpack-plugin';
 import HtmlWebpackPlugin from 'html-webpack-plugin';
+import MiniCssExtractPlugin from 'mini-css-extract-plugin';
 
 const CONFIG = {
     rootPath: '/home/romaro/react-forms',
@@ -63,10 +64,21 @@ export default {
                     },
                 ],
             },
+            {
+                /**
+                 * Для файлов без модульного постфикса (в данном случае .m)
+                 * выполняется стандартная обработка
+                 */
+                test: /^((?!\.m).)*s[ac]ss$/,
+                use: [MiniCssExtractPlugin.loader, 'css-loader', 'sass-loader'],
+            },
         ],
     },
     plugins: [
         new CleanWebpackPlugin(),
+        new MiniCssExtractPlugin({
+            filename: 'style.css',
+        }),
         new HtmlWebpackPlugin({
             template:
                 './' + path.join('pages', CONFIG.pageName, pageFileName('ejs')),
