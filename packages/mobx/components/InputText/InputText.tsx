@@ -1,6 +1,6 @@
 import { ReactHandlers } from '../../core/types/libs/react';
 
-type InputTextProps = FormFieldNode & {
+type InputTextProps = FormField & {
     onChange?: ReactHandlers.InputUpdateHandler;
 };
 

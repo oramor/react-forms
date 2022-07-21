@@ -1,29 +1,27 @@
 type SupportedLangs = 'ru' | 'en';
-
-type LocalNode = {
-    ru: string;
-    en: string;
-};
+type DictionaryNode = Record<Required<SupportedLangs>, string>;
 
 type Parsers = 'email' | 'phone';
 type Validators = 'email' | 'phone' | 'password';
+type Normalizers = 'low' | 'noSpace';
 
-type FormSchemeNode = {
-    title: LocalNode;
-    errors: LocalNode;
+type FormSchemaNode = {
+    title: DictionaryNode;
+    errors: DictionaryNode;
     required: boolean;
     matching?: {
         [key: string]: {
             parser?: Parsers | null;
+            normalizers?: Normalizers[];
             validator?: Validators | null;
         };
     };
-    placeholder?: LocalNode;
+    placeholder?: DictionaryNode;
 };
 
-type FormScheme = Record<string, FormSchemeNode>;
+type FormSchema = Record<string, FormSchemaNode>;
 
-type FormFieldNode = FormSchemeNode & {
+type FormField = FormSchemaNode & {
     value: string;
     error?: string;
 };

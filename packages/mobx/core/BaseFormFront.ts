@@ -1,21 +1,40 @@
 import { makeObservable, action, observable, computed } from 'mobx';
 import { ReactHandlers, ReactEvents } from './types/libs/react';
 
-type BaseFormStoreConstructor = new (lang: SupportedLangs) => BaseFormStore;
+type BaseFormFrontConstructor = new (lang: SupportedLangs) => BaseFormFront;
 
-export abstract class BaseFormStore {
+export abstract class BaseFormFront {
     protected lang: SupportedLangs;
     public isRequest = false;
-    constructor(...args: ConstructorParameters<BaseFormStoreConstructor>) {
+    constructor(...args: ConstructorParameters<BaseFormFrontConstructor>) {
         this.lang = args[0];
-        makeObservable(this, {
+    }
+
+    protected makeObservableWrapper() {
+        const regex = /^_\w*/;
+        const obj = {
             isRequest: observable,
             inputUpdateAction: action,
             sendForm: action,
+            setRequestOff: action,
+            setRequestOn: action,
+        };
+
+        Object.keys(this).forEach((fieldName) => {
+            if (regex.test(fieldName)) {
+                const computedFieldName = fieldName.slice(1);
+
+                // Only if object has pair like _login + login
+                if (this[computedFieldName]) {
+                    obj[fieldName] = observable;
+                    obj[computedFieldName] = computed;
+                }
+            }
         });
+
+        makeObservable(this, obj);
     }
 
-    // Fabric
     public inputUpdateFactory(
         fieldName: string,
     ): ReactHandlers.InputUpdateHandler {
@@ -50,30 +69,15 @@ export abstract class BaseFormStore {
     }
 
     public sendForm() {
-        this.changeFormStatus(true);
+        this.setRequestOn();
         console.log(this.formData.get('login'));
     }
 
-    private changeFormStatus(b: boolean) {
-        this.isRequest = b;
+    public setRequestOff() {
+        this.isRequest = false;
     }
 
-    protected getObservableFields() {
-        const regex = /^_\w*/;
-        const obj = {};
-
-        Object.keys(this).forEach((fieldName) => {
-            if (regex.test(fieldName)) {
-                const computedFieldName = fieldName.slice(1);
-
-                // Only if object has pair like _login + login
-                if (this[computedFieldName]) {
-                    obj[fieldName] = observable;
-                    obj[computedFieldName] = computed;
-                }
-            }
-        });
-        console.log(obj);
-        return obj;
+    public setRequestOn() {
+        this.isRequest = true;
     }
 }

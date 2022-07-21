@@ -1,4 +1,4 @@
-const scheme: FormScheme = {
+const scheme: FormSchema = {
     login: {
         title: {
             ru: 'Логин',
@@ -15,6 +15,7 @@ const scheme: FormScheme = {
         matching: {
             email: {
                 parser: 'email',
+                normalizers: ['low', 'noSpace'],
                 validator: 'email',
             },
         },
