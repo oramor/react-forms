@@ -1,5 +1,6 @@
 import { BaseFormFront } from '../../core/BaseFormFront';
 import LoginFormScheme from './LoginFormSchema';
+import { makeAutoObservable } from 'mobx';
 
 export class LoginFormFront extends BaseFormFront {
     _loginDirectly: FormFieldSchema = {
@@ -22,26 +23,26 @@ export class LoginFormFront extends BaseFormFront {
 
     constructor(lang: SupportedLangs) {
         super(lang);
-        this.makeObservableWrapper();
+        makeAutoObservable(this);
     }
 
     get loginDirectly() {
-        console.log('-------5');
         return this._loginDirectly;
     }
 
+    loginDirectlyUpdate(ev) {
+        this._loginDirectly.value = ev.target.value;
+    }
+
+    loginDirectlyComputed(ev) {
+        this._loginComputed.value = ev.target.value;
+    }
+
     get loginComputed() {
-        console.log('-------3');
-        // const obj = {
-        //     ...this._loginComputed,
-        // };
-        const obj = this._loginComputed;
-        return obj;
-        //return this._loginComputed;
-        //return this.computeField(this._loginComputed);
+        return this._loginComputed;
     }
 
     get password() {
-        return this.computeField(this._password);
+        return this._password;
     }
 }

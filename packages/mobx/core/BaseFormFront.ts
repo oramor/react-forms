@@ -23,6 +23,8 @@ export abstract class BaseFormFront {
         Object.keys(this).forEach((fieldName) => {
             if (regex.test(fieldName)) {
                 const computedFieldName = fieldName.slice(1);
+                console.log(fieldName);
+                console.log(computedFieldName);
 
                 // Only if object has pair like _login + login
                 if (this[computedFieldName]) {
@@ -35,18 +37,37 @@ export abstract class BaseFormFront {
         makeObservable(this, obj);
     }
 
+    protected computeField(fieldSchema: FormFieldSchema): FormFieldComputed {
+        const obj: FormFieldComputed = {
+            title: fieldSchema.title[this.lang],
+            value: fieldSchema.value,
+            required: fieldSchema.required,
+            error: fieldSchema.error,
+        };
+
+        if (fieldSchema.placeholder) {
+            obj.placeholder = fieldSchema.placeholder[this.lang];
+        }
+
+        return obj;
+    }
+
     public inputUpdateFactory(
         fieldName: string,
     ): ReactHandlers.InputUpdateHandler {
+        //console.log('-----------1');
         if (Object.keys(this).includes(fieldName)) {
             throw new Error(`Not found Field ${fieldName}`);
         }
 
-        return (ev: ReactEvents.InputUpdateEvent) =>
+        return (ev: ReactEvents.InputUpdateEvent) => {
+            console.log('-----------2');
             this.inputUpdateAction(fieldName, ev);
+        };
     }
 
     public inputUpdateAction(name: string, ev: ReactEvents.InputUpdateEvent) {
+        console.log('-----------4');
         const value: string = ev.target.value;
         this[name]['value'] = value;
     }

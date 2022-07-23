@@ -1,15 +1,18 @@
 import { ReactHandlers } from '../../core/types/libs/react';
 
-type InputTextProps = FormField & {
+/**
+ * В этом компоненте я получаю доступ к полям старым способом
+ */
+
+type InputTextProps = FormFieldSchema & {
     onChange?: ReactHandlers.InputUpdateHandler;
 };
 
-// export interface InputTextProps {
-//     placeholder?: string;
-//     onChange?: (ev: React.FormEvent<HTMLInputElement>) => void;
-// }
-
-export function InputText({ title, onChange, placeholder }: InputTextProps) {
+export function InputTextDirectly({
+    title,
+    onChange,
+    placeholder,
+}: InputTextProps) {
     return (
         <>
             <label htmlFor="login">{title.ru}</label>

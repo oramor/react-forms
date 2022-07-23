@@ -5,6 +5,7 @@ import MiniCssExtractPlugin from 'mini-css-extract-plugin';
 
 const CONFIG = {
     rootPath: '/home/romaro/react-forms',
+    //projectDirName: 'mobx-classic',
     projectDirName: 'mobx',
     outputDirName: '_public',
     pageName: 'LoginPage',

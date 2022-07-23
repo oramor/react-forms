@@ -25,7 +25,10 @@
     },
     "references": [
         {
-            "path": "packages/mobx"
+            "path": "packages/mobx",
+        },
+        {
+            "path": "packages/mobx-classic",
         }
     ],
     "exclude": [
