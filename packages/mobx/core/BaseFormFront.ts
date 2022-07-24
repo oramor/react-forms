@@ -68,8 +68,9 @@ export abstract class BaseFormFront {
 
     public inputUpdateAction(name: string, ev: ReactEvents.InputUpdateEvent) {
         console.log('-----------4');
+        const storedName = '_' + name;
         const value: string = ev.target.value;
-        this[name]['value'] = value;
+        this[storedName]['value'] = value;
     }
 
     private get formData() {
